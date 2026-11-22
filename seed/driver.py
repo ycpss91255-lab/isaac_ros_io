@@ -58,7 +58,7 @@ def parse_livestream_env(env_value: Optional[str]) -> Dict[str, Any]:
     """Translate the ``ISAAC_LIVESTREAM`` env value into SimulationApp kwargs.
 
     Values follow the docker stage convention introduced in
-    `ycpss91255-docker/isaac#28`:
+    `ycpss91255-lab/isaac#28`:
 
     - unset / empty / ``"0"`` -> headless, no streaming. Used by the
       ``headless`` Docker stage where Kit boots without a window or

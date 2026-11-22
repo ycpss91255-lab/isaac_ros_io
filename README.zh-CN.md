@@ -5,8 +5,8 @@ Isaac Sim ROS 2 bridge -- OmniGraph 传感器发布链 (camera, LiDAR, IMU)
 
 ## 概述
 
-从 [ycpss91255-docker/isaac](https://github.com/ycpss91255-docker/isaac)
-([#309](https://github.com/ycpss91255-docker/isaac/issues/309))
+从 [ycpss91255-lab/isaac](https://github.com/ycpss91255-lab/isaac)
+([#309](https://github.com/ycpss91255-lab/isaac/issues/309))
 抽取的 ROS 2 集成层。
 
 负责构建 OmniGraph action graph，将传感器数据发布至 ROS 2 topic，
@@ -25,8 +25,8 @@ Seed code 阶段。尚无法独立运行。依赖 Isaac Sim 容器及 `isaac_dev
 ## 来源
 
 从
-[ycpss91255-docker/isaac @ c068e3a](https://github.com/ycpss91255-docker/isaac/tree/c068e3a)
-依据 [issue #309](https://github.com/ycpss91255-docker/isaac/issues/309) 抽取。
+[ycpss91255-lab/isaac @ c068e3a](https://github.com/ycpss91255-lab/isaac/tree/c068e3a)
+依据 [issue #309](https://github.com/ycpss91255-lab/isaac/issues/309) 抽取。
 
 各文件来源对照表见 [SOURCE.md](SOURCE.md)。
 

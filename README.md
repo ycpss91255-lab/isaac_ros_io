@@ -6,8 +6,8 @@ and inbound topic subscription (cmd_vel) for the Isaac simulation environment.
 ## Overview
 
 ROS 2 integration layer extracted from
-[ycpss91255-docker/isaac](https://github.com/ycpss91255-docker/isaac)
-([#309](https://github.com/ycpss91255-docker/isaac/issues/309)).
+[ycpss91255-lab/isaac](https://github.com/ycpss91255-lab/isaac)
+([#309](https://github.com/ycpss91255-lab/isaac/issues/309)).
 
 Handles OmniGraph action graph construction for publishing sensor data to
 ROS 2 topics and subscribing to inbound commands.
@@ -26,8 +26,8 @@ container and the `isaac_devkit` framework.
 ## Origin
 
 Extracted from
-[ycpss91255-docker/isaac @ c068e3a](https://github.com/ycpss91255-docker/isaac/tree/c068e3a)
-per [issue #309](https://github.com/ycpss91255-docker/isaac/issues/309).
+[ycpss91255-lab/isaac @ c068e3a](https://github.com/ycpss91255-lab/isaac/tree/c068e3a)
+per [issue #309](https://github.com/ycpss91255-lab/isaac/issues/309).
 
 See [SOURCE.md](SOURCE.md) for per-file provenance.
 

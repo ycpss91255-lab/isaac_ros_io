@@ -621,7 +621,7 @@ def _setup_zed(cfg, stage):
     """Stereolabs ZED X via the official Isaac Sim extension.
 
     The extension is third-party and not bundled with the
-    ycpss91255-docker/isaac container, so it must be built + mounted
+    ycpss91255-lab/isaac container, so it must be built + mounted
     in once before this dispatch can boot — see doc/zed_install.md.
 
     This dispatch validates that the Stereolabs extension is loadable

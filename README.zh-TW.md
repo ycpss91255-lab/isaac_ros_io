@@ -1,20 +1,17 @@
-# isaac_ros2
+# isaac_ros_io
 
-Isaac Sim ROS 2 bridge -- OmniGraph 感測器發布鏈 (camera, LiDAR, IMU)
-及輸入端 topic 訂閱 (cmd_vel)，用於 Isaac 模擬環境。
+Isaac Sim 的 ROS 2 I/O 插件。負責模擬的全部 ROS 2 輸入與輸出：`/clock`、
+`/joint_states`、`/joint_command`（依各關節 USD DriveAPI 的模式解讀），以及
+感測器（相機、LiDAR、IMU），以 `isaacsim.ros2.bridge` 的 OmniGraph 節點建構。
+isaac repo 本身不碰 ROS，在 play 前呼叫本插件。
 
-## 概述
-
-從 [ycpss91255-lab/isaac](https://github.com/ycpss91255-lab/isaac)
-([#309](https://github.com/ycpss91255-lab/isaac/issues/309))
-抽出的 ROS 2 整合層。
-
-負責建構 OmniGraph action graph，將感測器資料發布至 ROS 2 topic，
-並訂閱輸入端指令。
+請勿與 NVIDIA Isaac ROS（`isaac_ros_*`）混淆。
 
 ## 目前狀態
 
-Seed code 階段。尚無法獨立執行。依賴 Isaac Sim 容器及 `isaac_devkit` 框架。
+尚未發佈。`seed/` 下仍是從 isaac 抽出的種子程式碼，無法獨立執行。目標與驗證
+項目見 [#3](https://github.com/ycpss91255-lab/isaac_ros_io/issues/3)；插件介面見
+[#6](https://github.com/ycpss91255-lab/isaac_ros_io/issues/6)。
 
 ## 相依套件
 
@@ -27,6 +24,7 @@ Seed code 階段。尚無法獨立執行。依賴 Isaac Sim 容器及 `isaac_dev
 從
 [ycpss91255-lab/isaac @ c068e3a](https://github.com/ycpss91255-lab/isaac/tree/c068e3a)
 依據 [issue #309](https://github.com/ycpss91255-lab/isaac/issues/309) 抽出。
+於 [#4](https://github.com/ycpss91255-lab/isaac_ros_io/issues/4) 由 `isaac_ros2` 改名為 `isaac_ros_io`。
 
 各檔案來源對照表見 [SOURCE.md](SOURCE.md)。
 

@@ -1,0 +1,89 @@
+name: CI
+
+# 第一個 CI（#7 前置）。merge queue 只需要 `ci-rollup` 這一個 check：
+# 之後新增的 job 只要加進 ci-rollup 的 needs，ruleset 不必改。
+#
+# 觸發不加 paths 過濾：被觸發條件略過的 workflow 會讓必要 check 一直等不到。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  merge_group:
+    types: [checks_requested]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: 取得原始碼
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: 檢查 workflow 語法
+        env:
+          ACTIONLINT_IMAGE: rhysd/actionlint:1.7.12
+        run: |
+          set -euo pipefail
+          docker run --rm -u "$(id -u):$(id -g)" \
+            -v "$PWD:/repo" -w /repo "$ACTIONLINT_IMAGE" -color
+
+  static:
+    # Python 3.12 對齊 Isaac Sim 6.x 內建的 Python。
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    container: python:3.12-slim
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - name: 取得原始碼
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Python 語法檢查
+        run: |
+          set -eu
+          find . -name '*.py' -not -path './.git/*' -print0 \
+            | xargs -0 python -c 'import ast, sys
+          for p in sys.argv[1:]:
+              ast.parse(open(p, encoding="utf-8").read(), p)
+          print(f"ok: {len(sys.argv) - 1} files")'
+      - name: XML 格式檢查
+        # seed/ 是從 isaac 原樣複製的參考檔，暫不檢查：seed/config/fastdds.xml
+        # 的註解含 `--`（XML 不允許），搬進套件時一併修正。
+        run: |
+          set -eu
+          find . -name '*.xml' -not -path './.git/*' -not -path './seed/*' -print0 \
+            | xargs -0 python -c 'import sys, xml.etree.ElementTree as ET
+          for p in sys.argv[1:]:
+              ET.parse(p)
+          print(f"ok: {len(sys.argv) - 1} files")'
+
+  ci-rollup:
+    # 唯一的必要 check。needs 裡每個 job 都必須是 success；
+    # skipped、failure、cancelled 一律判定失敗。
+    name: ci-rollup
+    if: always()
+    needs: [actionlint, static]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 確認全部 job 成功
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+          echo "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          bad="$(echo "$NEEDS" | jq -r '[to_entries[] | select(.value.result != "success") | .key] | join(", ")')"
+          if [ -n "$bad" ]; then
+            echo "::error::未成功的 job：$bad"
+            exit 1
+          fi

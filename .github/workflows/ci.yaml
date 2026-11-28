@@ -2,6 +2,7 @@ name: CI
 
 # 第一個 CI（#7 前置）。merge queue 只需要 `ci-rollup` 這一個 check：
 # 之後新增的 job 只要加進 ci-rollup 的 needs，ruleset 不必改。
+# main 已啟用 merge queue，PR 以 queue 合併；merge_group 事件也會跑 ci-rollup。
 #
 # 觸發不加 paths 過濾：被觸發條件略過的 workflow 會讓必要 check 一直等不到。
 on:
